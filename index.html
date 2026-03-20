@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>灵犀 · AI 对话助手</title>
+  <link rel="stylesheet" href="./css/highlight.css">
+  <link rel="stylesheet" href="./css/index.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="side-panel">
+      <div class="brand">
+        <img src="./assets/logo.svg" alt="灵犀标志" class="brand-logo">
+        <div>
+          <p class="brand-tag">WPS Lingxi Style</p>
+          <h1>灵犀</h1>
+        </div>
+      </div>
+
+      <div class="side-actions">
+        <button class="ghost-button" id="themeToggle" type="button">切换主题</button>
+        <button class="ghost-button" id="configToggle" type="button">API 设置</button>
+        <button class="ghost-button danger" id="clearChat" type="button">清空对话</button>
+      </div>
+
+      <div class="config-card">
+        <p class="config-title">模型接入</p>
+        <p class="config-desc">统一使用阿里云百炼 OpenAI 兼容接口。</p>
+        <div class="endpoint-chip">https://dashscope.aliyuncs.com/compatible-mode/v1</div>
+      </div>
+    </aside>
+
+    <main class="main-panel">
+      <section class="hero" id="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">阿里云百炼驱动</p>
+          <h2 class="gradient-title">你好，我是你的灵犀 AI 助手</h2>
+          <p class="hero-subtitle">支持流式问答、Markdown 渲染、图片上传、浅深色切换，以及贴近 WPS 灵犀的轻盈界面。</p>
+        </div>
+
+        <div class="quick-grid" id="quickGrid">
+          <button class="quick-card" type="button" data-prompt="请帮我生成一份本周工作周报，按已完成、进行中、风险项三部分输出。">
+            <span class="quick-icon amber">✦</span>
+            <span class="quick-title">工作周报</span>
+            <span class="quick-text">整理成结构化周报</span>
+          </button>
+          <button class="quick-card" type="button" data-prompt="请用 Markdown 表格帮我制定一个 7 天前端学习计划，并给出每天的练习建议。">
+            <span class="quick-icon sky">⌘</span>
+            <span class="quick-title">学习计划</span>
+            <span class="quick-text">输出表格和执行建议</span>
+          </button>
+          <button class="quick-card" type="button" data-prompt="请把下面内容润色成正式商务邮件，并保留礼貌语气。">
+            <span class="quick-icon rose">✉</span>
+            <span class="quick-title">邮件润色</span>
+            <span class="quick-text">商务表达更自然</span>
+          </button>
+          <button class="quick-card" type="button" data-prompt="请解释这段代码的作用，并指出可能的性能问题和优化方向。">
+            <span class="quick-icon mint">⌥</span>
+            <span class="quick-title">代码分析</span>
+            <span class="quick-text">讲清逻辑和风险点</span>
+          </button>
+        </div>
+      </section>
+
+      <section class="chat-panel" id="chatPanel">
+        <div class="chat-list" id="chatList" aria-live="polite"></div>
+      </section>
+
+      <section class="composer-wrap">
+        <div class="image-preview-list" id="imagePreviewList"></div>
+
+        <div class="composer">
+          <div class="composer-tools">
+            <label class="icon-button" for="imageInput" title="上传图片">
+              <input id="imageInput" type="file" accept="image/*" multiple hidden>
+              <span>图片</span>
+            </label>
+            <button class="icon-button" id="saveApiKey" type="button" title="保存 API Key">保存 Key</button>
+            <button class="icon-button stop hidden" id="stopResponse" type="button" title="停止生成">停止</button>
+          </div>
+
+          <div class="composer-main">
+            <textarea id="messageInput" rows="1" placeholder="给灵犀发送消息，Enter 发送，Shift + Enter 换行"></textarea>
+            <button class="send-button hidden" id="sendButton" type="button">发送</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <dialog class="config-modal" id="configModal">
+    <form class="config-form" method="dialog">
+      <div class="config-form-header">
+        <div>
+          <p class="eyebrow">阿里云百炼</p>
+          <h3>配置 API Key</h3>
+        </div>
+        <button class="ghost-button" value="cancel" type="submit">关闭</button>
+      </div>
+      <label class="field">
+        <span>本地存储键名</span>
+        <input type="text" value="LINGXI_API_KEY" disabled>
+      </label>
+      <label class="field">
+        <span>API Key</span>
+        <input type="password" id="apiKeyInput" placeholder="请输入百炼 API Key">
+      </label>
+      <p class="config-hint">仅存储在当前浏览器 LocalStorage，不写入仓库文件。</p>
+      <button class="primary-button" id="saveApiKeyModal" type="button">保存并使用</button>
+    </form>
+  </dialog>
+
+  <script src="./js/vendor/marked.min.js"></script>
+  <script src="./js/vendor/highlight.min.js"></script>
+  <script src="./js/index.js"></script>
+</body>
+</html>
