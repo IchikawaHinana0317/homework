@@ -20,7 +20,6 @@
 
       <div class="side-actions">
         <button class="ghost-button" id="themeToggle" type="button">切换主题</button>
-        <button class="ghost-button" id="configToggle" type="button">API 设置</button>
         <button class="ghost-button danger" id="clearChat" type="button">清空对话</button>
       </div>
 
@@ -76,7 +75,6 @@
               <input id="imageInput" type="file" accept="image/*" multiple hidden>
               <span>图片</span>
             </label>
-            <button class="icon-button" id="saveApiKey" type="button" title="保存 API Key">保存 Key</button>
             <button class="icon-button stop hidden" id="stopResponse" type="button" title="停止生成">停止</button>
           </div>
 
@@ -89,30 +87,9 @@
     </main>
   </div>
 
-  <dialog class="config-modal" id="configModal">
-    <form class="config-form" method="dialog">
-      <div class="config-form-header">
-        <div>
-          <p class="eyebrow">阿里云百炼</p>
-          <h3>配置 API Key</h3>
-        </div>
-        <button class="ghost-button" value="cancel" type="submit">关闭</button>
-      </div>
-      <label class="field">
-        <span>本地存储键名</span>
-        <input type="text" value="LINGXI_API_KEY" disabled>
-      </label>
-      <label class="field">
-        <span>API Key</span>
-        <input type="password" id="apiKeyInput" placeholder="请输入百炼 API Key">
-      </label>
-      <p class="config-hint">仅存储在当前浏览器 LocalStorage，不写入仓库文件。</p>
-      <button class="primary-button" id="saveApiKeyModal" type="button">保存并使用</button>
-    </form>
-  </dialog>
-
   <script src="./js/vendor/marked.min.js"></script>
   <script src="./js/vendor/highlight.min.js"></script>
+  <script src="./js/local-config.js"></script>
   <script src="./js/index.js"></script>
 </body>
 </html>

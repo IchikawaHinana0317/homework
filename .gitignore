@@ -2,3 +2,4 @@
 .env.*
 *.local
 *.tmp
+js/local-config.js

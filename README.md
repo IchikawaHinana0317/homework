@@ -21,7 +21,7 @@
 - 支持 `Enter` 发送、`Shift + Enter` 换行
 - 支持停止生成
 - 支持清空全部对话并回到首页状态
-- API Key 使用 `localStorage` 本地存储，固定键名为 `LINGXI_API_KEY`
+- API Key 使用本地配置文件配合 `localStorage` 存储，固定键名为 `LINGXI_API_KEY`
 
 ## 核心技术实现
 
@@ -33,7 +33,7 @@
 - 文本对话模型：`qwen-plus`
 - 图片问答模型：`qwen-vl-plus-latest`
 
-前端通过 `fetch` 发起 POST 请求，Header 中使用 `Authorization: Bearer ${API_KEY}`。当用户只输入文本时走文本模型；当消息中带有图片时，自动切换到视觉模型，并按照 OpenAI 兼容格式构造 `content` 数组。
+前端通过 `fetch` 发起 POST 请求，Header 中使用 `Authorization: Bearer ${API_KEY}`。当用户只输入文本时走文本模型；当消息中带有图片时，自动切换到视觉模型，并按照 OpenAI 兼容格式构造 `content` 数组。API Key 通过本地 `js/local-config.js` 手动写入，页面启动时再自动同步到 `localStorage` 的 `LINGXI_API_KEY`。
 
 ### 2. 流式响应
 
@@ -76,13 +76,14 @@ lingxi/
 
 ## 运行方式
 
-1. 使用 VS Code 的 Live Server 打开 `index.html`
-2. 点击“API 设置”或“保存 Key”按钮
-3. 输入你的阿里云百炼 API Key
-4. 开始对话
+1. 复制 `js/local-config.example.js` 为 `js/local-config.js`
+2. 在 `js/local-config.js` 中填入你的阿里云百炼 API Key
+3. 使用 VS Code 的 Live Server 打开 `index.html`
+4. 刷新页面后开始对话
 
 ## 说明
 
-- API Key 不写入任何项目文件，只存储在浏览器 `localStorage`
-- 仓库中无需提交任何明文密钥
+- 真实 API Key 放在 `js/local-config.js` 中，该文件已加入 `.gitignore`
+- 页面不会显式提供 API Key 输入框，而是在加载时自动把本地配置同步到浏览器 `localStorage`
+- 这是作业式本地方案，若部署到公开网站，前端仍无法真正隐藏密钥，生产环境应改为后端代理
 - 作业要求中的 `姓名_学号_灵犀.mp4` 需自行录制后放到项目根目录

@@ -17,13 +17,8 @@ const elements = {
   imageInput: document.getElementById("imageInput"),
   imagePreviewList: document.getElementById("imagePreviewList"),
   themeToggle: document.getElementById("themeToggle"),
-  configToggle: document.getElementById("configToggle"),
   clearChat: document.getElementById("clearChat"),
   stopResponse: document.getElementById("stopResponse"),
-  saveApiKey: document.getElementById("saveApiKey"),
-  configModal: document.getElementById("configModal"),
-  apiKeyInput: document.getElementById("apiKeyInput"),
-  saveApiKeyModal: document.getElementById("saveApiKeyModal"),
 };
 
 const state = {
@@ -48,7 +43,7 @@ boot();
 
 function boot() {
   applyTheme(localStorage.getItem(STORAGE_KEYS.theme) || "light");
-  elements.apiKeyInput.value = localStorage.getItem(STORAGE_KEYS.apiKey) || "";
+  bootstrapApiKey();
   bindEvents();
   updateComposer();
   renderImagePreviews();
@@ -57,9 +52,6 @@ function boot() {
 
 function bindEvents() {
   elements.themeToggle.addEventListener("click", toggleTheme);
-  elements.configToggle.addEventListener("click", () => elements.configModal.showModal());
-  elements.saveApiKey.addEventListener("click", handleSaveApiKey);
-  elements.saveApiKeyModal.addEventListener("click", handleSaveApiKey);
   elements.clearChat.addEventListener("click", clearConversation);
   elements.stopResponse.addEventListener("click", stopStreaming);
   elements.sendButton.addEventListener("click", submitMessage);
@@ -111,15 +103,11 @@ function applyTheme(theme) {
   localStorage.setItem(STORAGE_KEYS.theme, theme);
 }
 
-function handleSaveApiKey() {
-  const apiKey = elements.apiKeyInput.value.trim();
-  if (!apiKey) {
-    window.alert("请输入有效的 API Key。");
-    return;
+function bootstrapApiKey() {
+  const localConfigKey = typeof window.LINGXI_API_KEY === "string" ? window.LINGXI_API_KEY.trim() : "";
+  if (localConfigKey && !localConfigKey.includes("请将此文件复制为")) {
+    localStorage.setItem(STORAGE_KEYS.apiKey, localConfigKey);
   }
-  localStorage.setItem(STORAGE_KEYS.apiKey, apiKey);
-  elements.configModal.close();
-  window.alert("API Key 已保存到本地浏览器。");
 }
 
 function handleTextareaKeydown(event) {
@@ -253,7 +241,7 @@ async function submitMessage() {
 
   const apiKey = localStorage.getItem(STORAGE_KEYS.apiKey);
   if (!apiKey) {
-    elements.configModal.showModal();
+    window.alert("未检测到 API Key。请在 js/local-config.js 中设置 window.LINGXI_API_KEY，并刷新页面。");
     return;
   }
 
